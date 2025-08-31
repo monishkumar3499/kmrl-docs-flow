@@ -28,8 +28,6 @@ const sidebarItems: SidebarItem[] = [
   { title: 'Department Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { title: 'All Documents', href: '/documents', icon: FileText },
   { title: 'Approvals', href: '/approvals', icon: CheckSquare },
-  { title: 'User Management', href: '/users', icon: Users, adminOnly: true },
-  { title: 'System Settings', href: '/settings', icon: Settings, adminOnly: true },
 ];
 
 export const Sidebar = () => {

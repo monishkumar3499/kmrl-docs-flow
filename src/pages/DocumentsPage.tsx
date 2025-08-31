@@ -3,7 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { useAuth } from '@/contexts/AuthContext';
+import { format } from 'date-fns';
 import { 
   FileText, 
   Search, 
@@ -11,28 +15,46 @@ import {
   Calendar,
   User,
   ChevronDown,
-  Eye
+  Eye,
+  X
 } from 'lucide-react';
-import { mockDocuments } from '@/data/mockData';
+import { mockDocuments, departments } from '@/data/mockData';
 
 export default function DocumentsPage() {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState<string>('all');
+  const [dateFrom, setDateFrom] = useState<Date | undefined>();
+  const [dateTo, setDateTo] = useState<Date | undefined>();
+  const [showFilters, setShowFilters] = useState(false);
 
-  // Filter documents based on user role
+  // Filter documents based on user role and filters
   const filteredDocuments = mockDocuments.filter(doc => {
     const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesDepartment = selectedDepartment === 'all' || doc.department === selectedDepartment;
+    
+    const docDate = new Date(doc.createdAt);
+    const matchesDateFrom = !dateFrom || docDate >= dateFrom;
+    const matchesDateTo = !dateTo || docDate <= dateTo;
     
     if (user?.role === 'admin') {
-      return matchesSearch;
+      return matchesSearch && matchesDepartment && matchesDateFrom && matchesDateTo;
     }
     
     // For staff, show only relevant documents
-    return matchesSearch && (
+    return matchesSearch && matchesDepartment && matchesDateFrom && matchesDateTo && (
       doc.department === user?.department ||
       doc.currentApprovers.includes(user?.department?.split(' ')[0] || '')
     );
   });
+
+  const clearFilters = () => {
+    setSelectedDepartment('all');
+    setDateFrom(undefined);
+    setDateTo(undefined);
+  };
+
+  const hasActiveFilters = selectedDepartment !== 'all' || dateFrom || dateTo;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -62,20 +84,106 @@ export default function DocumentsPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="flex gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Search documents..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+        <div className="space-y-4">
+          <div className="flex gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder="Search documents..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter className="w-4 h-4" />
+              Filter
+              {hasActiveFilters && <Badge variant="secondary" className="ml-1 px-1 text-xs">!</Badge>}
+            </Button>
           </div>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Filter className="w-4 h-4" />
-            Filter
-          </Button>
+
+          {/* Filters Panel */}
+          {showFilters && (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex flex-wrap gap-4 items-end">
+                  {/* Department Filter */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Department</label>
+                    <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue placeholder="All Departments" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Departments</SelectItem>
+                        {departments.map((dept) => (
+                          <SelectItem key={dept.key} value={dept.name}>
+                            {dept.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Date From */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Date From</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-48 justify-start text-left font-normal">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          {dateFrom ? format(dateFrom, 'PPP') : 'Pick a date'}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <CalendarComponent
+                          mode="single"
+                          selected={dateFrom}
+                          onSelect={setDateFrom}
+                          disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+
+                  {/* Date To */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Date To</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-48 justify-start text-left font-normal">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          {dateTo ? format(dateTo, 'PPP') : 'Pick a date'}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <CalendarComponent
+                          mode="single"
+                          selected={dateTo}
+                          onSelect={setDateTo}
+                          disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+
+                  {/* Clear Filters */}
+                  {hasActiveFilters && (
+                    <Button variant="ghost" size="sm" onClick={clearFilters} className="flex items-center gap-1">
+                      <X className="w-4 h-4" />
+                      Clear
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
 
