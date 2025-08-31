@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(var(--primary-hover))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -52,6 +53,17 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Department specific colors
+				operations: 'hsl(var(--operations))',
+				engineering: 'hsl(var(--engineering))',
+				finance: 'hsl(var(--finance))',
+				hr: 'hsl(var(--hr))',
+				safety: 'hsl(var(--safety))',
+				// Status colors
+				'status-pending': 'hsl(var(--status-pending))',
+				'status-approved': 'hsl(var(--status-approved))',
+				'status-rejected': 'hsl(var(--status-rejected))',
+				'status-low': 'hsl(var(--status-low))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
