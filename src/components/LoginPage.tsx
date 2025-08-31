@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import { FileText, Shield, Users } from 'lucide-react';
 
 const DEPARTMENTS = [
@@ -24,6 +25,7 @@ export const LoginPage = () => {
   const [department, setDepartment] = useState('');
   const { login, isLoading } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +52,13 @@ export const LoginPage = () => {
         title: 'Welcome!',
         description: 'Login successful'
       });
+      
+      // Navigate to appropriate dashboard
+      if (loginType === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
     }
   };
 
