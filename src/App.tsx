@@ -10,6 +10,12 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import AdminDashboard from "@/pages/AdminDashboard";
 import DepartmentDashboard from "@/pages/DepartmentDashboard";
 import DocumentsPage from "@/pages/DocumentsPage";
+import ApprovalsPage from "@/pages/ApprovalsPage";
+import OperationsDashboard from "@/pages/OperationsDashboard";
+import EngineeringDashboard from "@/pages/EngineeringDashboard";
+import FinanceDashboard from "@/pages/FinanceDashboard";
+import HRDashboard from "@/pages/HRDashboard";
+import SafetyDashboard from "@/pages/SafetyDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,23 +70,14 @@ const App = () => (
               />
               <Route path="dashboard" element={<DepartmentDashboard />} />
               <Route path="documents" element={<DocumentsPage />} />
-              <Route path="approvals" element={<DocumentsPage />} />
-              <Route path="users" element={
-                <ProtectedRoute adminOnly>
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold mb-2">User Management</h2>
-                    <p className="text-muted-foreground">Coming soon...</p>
-                  </div>
-                </ProtectedRoute>
-              } />
-              <Route path="settings" element={
-                <ProtectedRoute adminOnly>
-                  <div className="text-center py-12">
-                    <h2 className="text-2xl font-bold mb-2">System Settings</h2>
-                    <p className="text-muted-foreground">Coming soon...</p>
-                  </div>
-                </ProtectedRoute>
-              } />
+              <Route path="approvals" element={<ApprovalsPage />} />
+              
+              {/* Department Routes */}
+              <Route path="departments/operations" element={<OperationsDashboard />} />
+              <Route path="departments/engineeringmaintenance" element={<EngineeringDashboard />} />
+              <Route path="departments/financeprocurement" element={<FinanceDashboard />} />
+              <Route path="departments/humanresources" element={<HRDashboard />} />
+              <Route path="departments/safetyregulatory" element={<SafetyDashboard />} />
             </Route>
             
             {/* Catch all */}

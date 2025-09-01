@@ -1,0 +1,96 @@
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { FileText, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+
+export default function FinanceDashboard() {
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-finance to-green-600 bg-clip-text text-transparent">
+            Finance & Procurement Department
+          </h1>
+          <p className="text-muted-foreground">Manage financial documents and procurement processes</p>
+        </div>
+      </div>
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="card-premium">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Documents</CardTitle>
+            <FileText className="h-4 w-4 text-finance" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">18</div>
+            <p className="text-xs text-muted-foreground">+3 from last month</p>
+          </CardContent>
+        </Card>
+
+        <Card className="card-premium">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
+            <Clock className="h-4 w-4 text-status-pending" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">5</div>
+            <p className="text-xs text-muted-foreground">Requires attention</p>
+          </CardContent>
+        </Card>
+
+        <Card className="card-premium">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Approved</CardTitle>
+            <CheckCircle className="h-4 w-4 text-status-approved" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">13</div>
+            <p className="text-xs text-muted-foreground">This month</p>
+          </CardContent>
+        </Card>
+
+        <Card className="card-premium">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Rejected</CardTitle>
+            <AlertCircle className="h-4 w-4 text-status-rejected" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-muted-foreground">Excellent performance</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Sample Document */}
+      <Card className="card-premium">
+        <CardHeader>
+          <CardTitle>Sample Finance Document</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-2">
+              <h3 className="font-semibold">Annual Procurement Policy - FY 2024-25</h3>
+              <p className="text-sm text-muted-foreground">
+                Updated procurement guidelines, vendor evaluation criteria, and budget allocation procedures.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="secondary">Finance</Badge>
+                <Badge variant="outline" className="text-status-pending border-status-pending">
+                  Under Review
+                </Badge>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm">View</Button>
+              <Button size="sm" className="bg-gradient-to-r from-finance to-green-600">
+                Approve
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

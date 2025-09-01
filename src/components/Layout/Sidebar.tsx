@@ -25,9 +25,16 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
   { title: 'Admin Dashboard', href: '/admin', icon: LayoutDashboard, adminOnly: true },
-  { title: 'Department Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { title: 'All Documents', href: '/documents', icon: FileText },
   { title: 'Approvals', href: '/approvals', icon: CheckSquare },
+];
+
+const departmentItems = [
+  { title: 'Operations', href: '/departments/operations', icon: LayoutDashboard },
+  { title: 'Engineering & Maintenance', href: '/departments/engineeringmaintenance', icon: LayoutDashboard },
+  { title: 'Finance & Procurement', href: '/departments/financeprocurement', icon: LayoutDashboard },
+  { title: 'Human Resources', href: '/departments/humanresources', icon: LayoutDashboard },
+  { title: 'Safety & Regulatory', href: '/departments/safetyregulatory', icon: LayoutDashboard },
 ];
 
 export const Sidebar = () => {
@@ -51,11 +58,11 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="h-full bg-card border-r border-border flex flex-col">
+    <div className="h-full bg-card border-r border-border flex flex-col shadow-premium">
       {/* Header */}
       <div className="p-6 border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-primary rounded-lg">
+          <div className="p-2 bg-gradient-to-r from-primary to-orange-400 rounded-xl">
             <FileText className="w-6 h-6 text-primary-foreground" />
           </div>
           <div>
@@ -66,8 +73,9 @@ export const Sidebar = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
-        <div className="mb-4">
+      <nav className="flex-1 p-4 overflow-y-auto">
+        {/* Main Navigation */}
+        <div className="mb-6">
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
             {user?.role === 'admin' ? 'ADMINISTRATION' : 'NAVIGATION'}
           </h3>
@@ -79,13 +87,41 @@ export const Sidebar = () => {
               return (
                 <Link key={item.href} to={item.href}>
                   <div className={cn(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
+                    "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
                     isActive 
-                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      ? "bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-premium" 
                       : "text-foreground hover:bg-accent hover:text-accent-foreground"
                   )}>
                     <Icon className="w-4 h-4" />
                     <span className="flex-1">{item.title}</span>
+                    {isActive && <ChevronRight className="w-4 h-4" />}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Departments Navigation */}
+        <div className="mb-4">
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            DEPARTMENTS
+          </h3>
+          <div className="space-y-1">
+            {departmentItems.map((item) => {
+              const isActive = location.pathname === item.href;
+              const Icon = item.icon;
+              
+              return (
+                <Link key={item.href} to={item.href}>
+                  <div className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                    isActive 
+                      ? "bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-premium" 
+                      : "text-foreground hover:bg-accent hover:text-accent-foreground"
+                  )}>
+                    <Icon className="w-4 h-4" />
+                    <span className="flex-1 text-xs sm:text-sm">{item.title}</span>
                     {isActive && <ChevronRight className="w-4 h-4" />}
                   </div>
                 </Link>

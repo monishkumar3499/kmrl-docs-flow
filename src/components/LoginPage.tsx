@@ -57,7 +57,9 @@ export const LoginPage = () => {
       if (loginType === 'admin') {
         navigate('/admin');
       } else {
-        navigate('/dashboard');
+        // Navigate to specific department dashboard
+        const deptKey = department?.toLowerCase().replace(/\s+/g, '').replace('&', '');
+        navigate(`/departments/${deptKey}`);
       }
     }
   };
@@ -68,7 +70,7 @@ export const LoginPage = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="p-3 bg-primary rounded-xl">
+            <div className="p-3 bg-gradient-to-r from-primary to-orange-400 rounded-2xl">
               <FileText className="w-8 h-8 text-primary-foreground" />
             </div>
             <div>
@@ -82,7 +84,7 @@ export const LoginPage = () => {
           </p>
         </div>
 
-        <Card className="shadow-lg border-0 bg-card/95 backdrop-blur">
+        <Card className="card-premium">
           <CardHeader className="pb-4">
             <CardTitle className="text-center">System Login</CardTitle>
           </CardHeader>
@@ -142,7 +144,7 @@ export const LoginPage = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full bg-primary hover:bg-primary-hover"
+                  className="w-full bg-gradient-to-r from-primary to-orange-400 hover:from-primary-hover hover:to-orange-500 rounded-xl"
                   disabled={isLoading}
                 >
                   {isLoading ? 'Signing in...' : 'Sign In'}
@@ -150,12 +152,33 @@ export const LoginPage = () => {
               </form>
 
               {/* Demo Credentials */}
-              <div className="mt-6 p-3 bg-muted rounded-lg text-xs">
-                <p className="font-medium mb-2">Demo Credentials:</p>
-                <div className="space-y-1">
-                  <p><strong>Admin:</strong> kmrladmin@gmail.com / AdminPass@123</p>
-                  <p><strong>Operations:</strong> kmrl.operations@gmail.com / OpsPass@123</p>
-                  <p><strong>Engineering:</strong> kmrl.engineering@gmail.com / EngPass@123</p>
+              <div className="mt-6 p-4 bg-muted rounded-2xl text-xs">
+                <p className="font-medium mb-3">Demo Credentials:</p>
+                <div className="space-y-2">
+                  <div>
+                    <p><strong>Admin:</strong></p>
+                    <p className="text-muted-foreground ml-2">kmrladmin@gmail.com / AdminPass@123</p>
+                  </div>
+                  <div>
+                    <p><strong>Operations:</strong></p>
+                    <p className="text-muted-foreground ml-2">kmrl.operations@gmail.com / OpsPass@123</p>
+                  </div>
+                  <div>
+                    <p><strong>Engineering & Maintenance:</strong></p>
+                    <p className="text-muted-foreground ml-2">kmrl.engineering@gmail.com / EngPass@123</p>
+                  </div>
+                  <div>
+                    <p><strong>Finance & Procurement:</strong></p>
+                    <p className="text-muted-foreground ml-2">kmrl.finance@gmail.com / FinPass@123</p>
+                  </div>
+                  <div>
+                    <p><strong>Human Resources:</strong></p>
+                    <p className="text-muted-foreground ml-2">kmrl.hr@gmail.com / HRPass@123</p>
+                  </div>
+                  <div>
+                    <p><strong>Safety & Regulatory:</strong></p>
+                    <p className="text-muted-foreground ml-2">kmrl.safety@gmail.com / SafePass@123</p>
+                  </div>
                 </div>
               </div>
             </Tabs>
