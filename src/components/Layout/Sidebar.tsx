@@ -21,7 +21,6 @@ interface SidebarItem {
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   adminOnly?: boolean;
-  key?: string;
 }
 
 const sidebarItems: SidebarItem[] = [
@@ -31,11 +30,11 @@ const sidebarItems: SidebarItem[] = [
 ];
 
 const departmentItems = [
-  { title: 'Operations', href: '/departments/operations', icon: LayoutDashboard, key: 'operations' },
-  { title: 'Engineering & Maintenance', href: '/departments/engineeringmaintenance', icon: LayoutDashboard, key: 'engineeringmaintenance' },
-  { title: 'Finance & Procurement', href: '/departments/financeprocurement', icon: LayoutDashboard, key: 'financeprocurement' },
-  { title: 'Human Resources', href: '/departments/humanresources', icon: LayoutDashboard, key: 'humanresources' },
-  { title: 'Safety & Regulatory', href: '/departments/safetyregulatory', icon: LayoutDashboard, key: 'safetyregulatory' },
+  { title: 'Operations', href: '/departments/operations', icon: LayoutDashboard },
+  { title: 'Engineering & Maintenance', href: '/departments/engineeringmaintenance', icon: LayoutDashboard },
+  { title: 'Finance & Procurement', href: '/departments/financeprocurement', icon: LayoutDashboard },
+  { title: 'Human Resources', href: '/departments/humanresources', icon: LayoutDashboard },
+  { title: 'Safety & Regulatory', href: '/departments/safetyregulatory', icon: LayoutDashboard },
 ];
 
 export const Sidebar = () => {
@@ -45,14 +44,6 @@ export const Sidebar = () => {
   const filteredItems = sidebarItems.filter(item => 
     !item.adminOnly || user?.role === 'admin'
   );
-
-  // Get user's department key for access control
-  const userDeptKey = user?.department?.toLowerCase().replace(/\s+/g, '').replace('&', '');
-  
-  // Filter departments based on user role and department
-  const filteredDepartments = user?.role === 'admin' 
-    ? departmentItems 
-    : departmentItems.filter(dept => dept.key === userDeptKey);
 
   const getDepartmentColor = (department?: string) => {
     if (!department) return 'bg-primary';
@@ -117,7 +108,7 @@ export const Sidebar = () => {
             DEPARTMENTS
           </h3>
           <div className="space-y-1">
-            {filteredDepartments.map((item) => {
+            {departmentItems.map((item) => {
               const isActive = location.pathname === item.href;
               const Icon = item.icon;
               

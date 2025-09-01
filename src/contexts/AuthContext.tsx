@@ -22,10 +22,10 @@ const CREDENTIALS = {
   admin: { email: 'kmrladmin@gmail.com', password: 'AdminPass@123' },
   departments: {
     operations: { email: 'kmrl.operations@gmail.com', password: 'OpsPass@123' },
-    engineeringmaintenance: { email: 'kmrl.engineering@gmail.com', password: 'EngPass@123' },
-    financeprocurement: { email: 'kmrl.finance@gmail.com', password: 'FinPass@123' },
-    humanresources: { email: 'kmrl.hr@gmail.com', password: 'HRPass@123' },
-    safetyregulatory: { email: 'kmrl.safety@gmail.com', password: 'SafePass@123' },
+    engineering: { email: 'kmrl.engineering@gmail.com', password: 'EngPass@123' },
+    finance: { email: 'kmrl.finance@gmail.com', password: 'FinPass@123' },
+    hr: { email: 'kmrl.hr@gmail.com', password: 'HRPass@123' },
+    safety: { email: 'kmrl.safety@gmail.com', password: 'SafePass@123' },
   }
 };
 
