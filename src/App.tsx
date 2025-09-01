@@ -28,6 +28,11 @@ const DashboardRedirect = () => {
     return <Navigate to="/admin" replace />;
   }
   
+  if (user?.role === 'staff' && user?.department) {
+    const deptKey = user.department.toLowerCase().replace(/\s+/g, '').replace('&', '');
+    return <Navigate to={`/departments/${deptKey}`} replace />;
+  }
+  
   return <Navigate to="/dashboard" replace />;
 };
 
